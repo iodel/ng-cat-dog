@@ -1,0 +1,63 @@
+@import "../variables";
+
+#imageUploadInput {
+  visibility: hidden;
+}
+
+.app, mat-progress-spinner {
+  margin: auto;
+}
+
+.app,
+form {
+  max-width: 500px;
+  margin-top: 2rem;
+}
+
+form, button.predict {
+  margin-bottom: 2rem;
+}
+
+.color-primary {
+  color: $primary;
+}
+
+.color-accent {
+  color: $accent;
+}
+
+.color-warn {
+  color: $warn;
+}
+
+.prediction {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+  margin: 1rem;
+}
+
+::ng-deep .mat-card-header-text  {
+  margin: 0 auto !important;
+}
+
+mat-toolbar-row a {
+  color: white !important;
+  text-decoration: none;
+  margin-right: 2rem;
+  &:hover {
+    color: $warn !important;
+  }
+
+  mat-icon {
+    margin-right: 0.4rem;
+  }
+
+  mat-icon, span {
+    vertical-align: middle;
+  }
+}
+
+img[mat-card-image] {
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
+}

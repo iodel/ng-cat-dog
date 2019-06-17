@@ -1,13 +1,60 @@
-<h1 class="mat-h1 mat-headline">
-  Welcome to {{ title }}!
-</h1>
-<div fxLayout="row" fxLayoutAlign="space-between">
-  <button mat-button>Basic</button>
-  <button mat-button color="primary">Primary</button>
-  <button mat-button color="accent">Accent</button>
-  <button mat-button color="warn">Warn</button>
-  <button mat-button disabled>Disabled</button>
-  <a mat-button routerLink=".">Link</a>
-</div>
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="start center">
+    <a routerLink="/">
+      <mat-icon class="example-icon" aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+      <span>Home</span>
+    </a>
+    <a routerLink="/cnn">
+      <mat-icon class="example-icon" aria-hidden="false" aria-label="Example filter icon">filter</mat-icon>
+      <span>CNN</span>
+    </a>
+    <a routerLink="/rnn">
+      <mat-icon class="example-icon" aria-hidden="false" aria-label="Example refresh icon">refresh</mat-icon>
+      <span>RNN</span>
+    </a>
+  </mat-toolbar-row>
+</mat-toolbar>
 
-<router-outlet></router-outlet>
+
+<mat-card class="app">
+  <mat-card-header>
+    <mat-card-title class="title">
+      <span class="color-warn">Cats</span>
+      vs
+      <span class="color-accent">Dogs</span></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+
+    <form [formGroup]="form" fxLayout="column" fxLayoutGap="2rem" enctype="multipart/form-data">
+
+      <input (change)="onImagePicked($event)" #filePicker name="image" id="imageUploadInput" type="file" />
+
+      <button (click)="filePicker.click()" mat-button mat-stroked-button type="button" color="accent">
+        Pick a pet image
+      </button>
+
+      <img mat-card-image *ngIf="imagePreview && imagePreview !== '' && form.get('image').valid" [src]="imagePreview">
+      <mat-form-field *ngIf="imageChanged">
+        <input matInput formControlName="imageName" type="text" color="accent" name="imageName"
+          placeholder="Image name" />
+        <mat-error *ngIf="form.get('imageName').invalid">Please enter an image name</mat-error>
+      </mat-form-field>
+
+      <button *ngIf="imageChanged" (click)="onSubmit(form.value.imageName, form.value.image)" mat-button
+        mat-stroked-button type="button" color="accent" [disabled]="form.value.imageName === null">Submit</button>
+
+    </form>
+
+    <button *ngIf="uploaded" class="predict" mat-button mat-stroked-button type="button" color="primary"
+      (click)="onPredict()">Predict!</button>
+
+    <ng-container *ngIf="loading; else text">
+      <mat-progress-spinner mode="indeterminate" color="accent">
+      </mat-progress-spinner>
+    </ng-container>
+    <ng-template #text>
+      <h2 *ngIf="ready" [ngClass]="{ 'color-warn': prediction==='Cat', 'color-accent': prediction==='Dog'}"
+        class="prediction">It's a {{ prediction }} !!!</h2>
+    </ng-template>
+  </mat-card-content>
+</mat-card>
