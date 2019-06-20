@@ -9,10 +9,12 @@ import { AppComponent } from './app.component';
 import { NgMaterialModule } from './ng-material/ng-material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { VerifyUploadComponent } from './verify-upload/verify-upload.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    VerifyUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -24,6 +26,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    VerifyUploadComponent
+  ]
 })
 export class AppModule { }

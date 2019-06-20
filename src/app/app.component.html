@@ -4,14 +4,14 @@
       <mat-icon class="example-icon" aria-hidden="false" aria-label="Example home icon">home</mat-icon>
       <span>Home</span>
     </a>
-    <a routerLink="/cnn">
+    <!-- <a routerLink="/cnn">
       <mat-icon class="example-icon" aria-hidden="false" aria-label="Example filter icon">filter</mat-icon>
       <span>CNN</span>
     </a>
     <a routerLink="/rnn">
       <mat-icon class="example-icon" aria-hidden="false" aria-label="Example refresh icon">refresh</mat-icon>
       <span>RNN</span>
-    </a>
+    </a> -->
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -54,7 +54,10 @@
     </ng-container>
     <ng-template #text>
       <h2 *ngIf="ready" [ngClass]="{ 'color-warn': prediction==='Cat', 'color-accent': prediction==='Dog'}"
-        class="prediction">It's a {{ prediction }} !!!</h2>
+        class="prediction">It's a {{ prediction }} !!!
+        <br>
+        Confidence: {{ probability }} %
+      </h2>
     </ng-template>
   </mat-card-content>
 </mat-card>

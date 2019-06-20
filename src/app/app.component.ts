@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { mimeType } from './mime-type.validator';
+import { VerifyUploadComponent } from './verify-upload/verify-upload.component';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +20,13 @@ export class AppComponent implements OnInit {
   form: FormGroup;
   imagePreview: any;
   resourceURL = 'http://localhost:5000/api/pet';
+  durationInSeconds = 2;
+  probability: number;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -52,6 +59,9 @@ export class AppComponent implements OnInit {
       .subscribe(
         res => {
           this.uploaded = true;
+          this.snackBar.openFromComponent(VerifyUploadComponent, {
+            duration: this.durationInSeconds * 1000,
+          });
         }
       );
   };
@@ -66,15 +76,13 @@ export class AppComponent implements OnInit {
 
     this.loading = true;
 
-    const isDog$ = this.http.get(`${this.resourceURL}/predict/${imageName.value}`)
-      .pipe(
-        map((res: { dog: boolean, cat: boolean }) => res.dog)
-      );
+    const isDog$ = this.http.get(`${this.resourceURL}/predict/${imageName.value}`);
 
-    isDog$.subscribe(isDog => {
+    isDog$.subscribe((res: { dog: number, cat: number, image: string }) => {
       this.loading = false;
       this.ready = true;
-      this.prediction = isDog ? 'Dog' : 'Cat';
+      this.prediction = res.dog >= 0.5 ? 'Dog' : 'Cat';
+      this.probability = Math.max(res.dog, res.cat);
     });
   };
 
